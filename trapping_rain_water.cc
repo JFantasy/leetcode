@@ -1,6 +1,27 @@
 class Solution {
   public:
     int trap(int A[], int n) {
+      int max_height_index = 0, res = 0;
+      for (int i = 1; i < n; ++ i) {
+        if (A[max_height_index] < A[i]) max_height_index = i;
+      }
+      for (int i = 0, cur = 0; i < max_height_index; ++ i) {
+        if (cur < A[i]) cur = A[i];
+        else res += cur - A[i];
+      }
+      for (int i = n - 1, cur = 0; i > max_height_index; -- i) {
+        if (cur < A[i]) cur = A[i];
+        else res += cur - A[i];
+      }
+      return res;
+    }
+};
+
+//------
+
+class Solution {
+  public:
+    int trap(int A[], int n) {
       vector<int> left(n, 0), right(n, 0);
       for (int i = 1; i < n; ++ i) {
         left[i] = max(left[i - 1], A[i - 1]);
