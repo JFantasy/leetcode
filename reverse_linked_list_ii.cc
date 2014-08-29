@@ -9,6 +9,31 @@
 class Solution {
   public:
     ListNode *reverseBetween(ListNode *head, int m, int n) {
+      ListNode **p = &head;
+      for (int i = 0; i < m - 1; ++ i) p = &((*p)->next);
+      ListNode *current = (*p)->next, *begin = *p;
+      for (int i = m; i < n; ++ i) {
+        ListNode *next = current->next;
+        current->next = *p;
+        *p = current;
+        current = next;
+      }
+      begin->next = current;
+      return head;
+    }
+};
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+  public:
+    ListNode *reverseBetween(ListNode *head, int m, int n) {
       ListNode dummy(-1);
       dummy.next = head;
       ListNode *prev = &dummy, *mid;
