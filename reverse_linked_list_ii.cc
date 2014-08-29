@@ -8,6 +8,36 @@
  */
 class Solution {
   public:
+    ListNode *reverseBetween(ListNode *head, int m, int n) {
+      ListNode dummy(-1);
+      dummy.next = head;
+      ListNode *prev = &dummy, *mid;
+      for (int i = 0; i < m - 1; ++ i) prev = prev->next;
+      mid = prev;
+      prev = prev->next;
+      ListNode *current = prev->next;
+      for (int i = m; i < n; ++ i) {
+        prev->next = current->next;
+        current->next = mid->next;
+        mid->next = current;
+        current = prev->next;
+      }
+      return dummy.next;
+    }
+};
+
+//---------
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+  public:
     ListNode *reverse(ListNode *head) {
       if (!head) return NULL;
       if (!head->next) return head;
