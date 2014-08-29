@@ -1,11 +1,11 @@
 class Solution {
   public:
     bool check(const vector<char> &arr) {
-      vector<int> tot(10);
+      vector<int> tot(9);
       for (int i = 0; i < arr.size(); ++ i) {
         if (arr[i] == '.') continue;
-        ++ tot[arr[i] - '0'];
-        if (tot[arr[i] - '0'] > 1) return false;
+        ++ tot[arr[i] - '1'];
+        if (tot[arr[i] - '1'] > 1) return false;
       }
       return true;
     }
