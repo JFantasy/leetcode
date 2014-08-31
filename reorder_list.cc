@@ -9,6 +9,53 @@
 class Solution {
   public:
     ListNode *reverse(ListNode *head) {
+      ListNode **p = &head;
+      ListNode *begin = *p, *current = head;
+      while (current) {
+        ListNode *next = current->next;
+        current->next = *p;
+        *p = current;
+        current = next;
+      }
+      begin->next = nullptr;
+      return head;
+    }
+    void mergeList(ListNode *left, ListNode *right) {
+      while (left->next != nullptr) {
+        ListNode *next = left->next;
+        left->next = right;
+        right = right->next;
+        left->next->next = next;
+        left = next;
+      }
+      left->next = right;
+    }
+    void reorderList(ListNode *head) {
+      if (head == nullptr || head->next == nullptr) return;
+      ListNode *fast = head, *slow = head, *prev = head;
+      while (fast != nullptr && fast->next != nullptr) {
+        fast = fast->next->next;
+        prev = slow;
+        slow = slow->next;
+      }
+      prev->next = nullptr;
+      mergeList(head, reverse(slow));
+    }
+};
+
+//---------
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+  public:
+    ListNode *reverse(ListNode *head) {
       if (!head->next) return head;
       ListNode *last = head, *current = head->next;
       last->next = NULL;
