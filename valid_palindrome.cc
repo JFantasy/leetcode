@@ -1,5 +1,24 @@
 class Solution {
   public:
+    bool isPalindrome(string s) {
+      transform(s.begin(), s.end(), s.begin(), ::tolower);
+      for (int l = 0, r = s.length() - 1; l < r; ) {
+        if (!::isalnum(s[l])) ++ l;
+        else if (!::isalnum(s[r])) -- r;
+        else if (s[l] != s[r]) return false;
+        else {
+          ++ l;
+          -- r;
+        }
+      }
+      return true;
+    }
+};
+
+//---------
+
+class Solution {
+  public:
     bool check(const string &str) {
       for (int l = 0, r = str.length() - 1; l < r; ++ l, -- r) {
         if (str[l] != str[r]) return false;
