@@ -1,5 +1,29 @@
 class Solution {
   public:
+    int atoi(const char *str) {
+      const int n = strlen(str);
+      int start = 0, sign = 1, number = 0;
+      while (start < n && str[start] == ' ') ++start;
+      if (str[start] == '+') ++start;
+      else if (str[start] == '-') {
+        sign *= -1;
+        ++start;
+      }
+      for (int i = start; i < n; ++i) {
+        if (str[i] < '0' || str[i] > '9') break;
+        if (number > INT_MAX / 10 || (number == INT_MAX / 10 && str[i] - '0' > INT_MAX % 10)) {
+          return sign > 0 ? INT_MAX : INT_MIN;
+        }
+        number = number * 10 + str[i] - '0';
+      }
+      return sign * number;
+    }
+};
+
+//---------
+
+class Solution {
+  public:
     void getRange(const char *str, int &l, int &r) {
       int len = strlen(str);
       while (l < len && str[l] == ' ') ++ l;
