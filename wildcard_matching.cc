@@ -1,5 +1,29 @@
 class Solution {
   public:
+    bool isMatch(const char *s, const char *p) {
+      int i = 0, j = 0, n = strlen(s), m = strlen(p), star_pos = -1, star_match = -1;
+      while (i < n) {
+        if (j < m && (s[i] == p[j] || p[j] == '?')) {
+          ++i;
+          ++j;
+        } else if (j < m && (p[j] == '*')) {
+          star_pos = j;
+          star_match = i;
+          ++j;
+        } else if (star_pos >= 0) {
+          j = star_pos + 1;
+          i = ++star_match;
+        } else return false;
+      }
+      while (j < m && p[j] == '*') ++j;
+      return i == n && j == m;
+    }
+};
+
+//---------
+
+class Solution {
+  public:
     vector<string> getStringVector(const char *p) {
       int len = strlen(p);
       vector<string> res;
