@@ -1,4 +1,39 @@
 class Solution {
+public:
+    bool isNumber(const char *s) {
+        if (s == NULL) return false;
+        while (isspace(*s)) ++s;
+        if (*s == '\0') return false;
+        bool op_appear = false, dot_appear = false, exponent_appear = false, number_appear = false;
+        for (char last = '\0'; *s != '\0' && !isspace(*s); last = *s, ++s) {
+            if (isdigit(*s)) {
+                number_appear = true;
+                continue;
+            } else if (*s == '+' || *s == '-') {
+                if (op_appear) return false;
+                if (last == '.') return false;
+                if (number_appear) return false;
+                op_appear = true;
+                number_appear = false;
+            } else if (*s == 'e') {
+                if (exponent_appear) return false;
+                if (!number_appear) return false;
+                exponent_appear = true;
+                op_appear = false;
+                number_appear = false;
+            } else if (*s == '.') {
+                if (dot_appear || exponent_appear) return false;
+                dot_appear = true;
+            } else return false;
+        }
+        while (*s != '\0' && isspace(*s)) ++s;
+        return *s == '\0' && number_appear;
+    }
+};
+
+//---------
+
+class Solution {
   public:
     bool check(const char *s, int l, int r, int op, int e, int point) {
       if (l > r) return false;
