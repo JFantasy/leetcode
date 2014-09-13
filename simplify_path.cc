@@ -1,4 +1,28 @@
 class Solution {
+public:
+    string simplifyPath(string path) {
+        vector<string> dirs;
+        for (auto current = path.begin(); current != path.end();) {
+            ++current;
+            auto next = find(current, path.end(), '/');
+            string name(current, next);
+            if (name != "." && name.length() > 0) {
+                if (name == "..") {
+                    if (!dirs.empty()) dirs.pop_back();
+                } else dirs.push_back(name);
+            }
+            current = next;
+        }
+        if (dirs.empty()) return "/";
+        string res = "";
+        for (const auto &name : dirs) res += "/" + name;
+        return res;
+    }
+};
+
+//---------
+
+class Solution {
   public:
     void update(vector<string> &res, string &current) {
       if (current != ".") {
