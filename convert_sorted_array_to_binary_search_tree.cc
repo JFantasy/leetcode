@@ -11,7 +11,7 @@ class Solution {
   public:
     TreeNode *buildTree(int low, int upp, const vector<int> &num) {
       if (low > upp) return NULL;
-      int mid = (low + upp) >> 1;
+      int mid = low + (upp - low) / 2;
       TreeNode *res = new TreeNode(num[mid]);
       res->left = buildTree(low, mid - 1, num);
       res->right = buildTree(mid + 1, upp, num);
