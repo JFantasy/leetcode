@@ -12,8 +12,7 @@ class Solution {
     TreeNode *build(const vector<int> &inorder, const vector<int> &postorder, int il, int ir, int pl, int pr) {
       if (pl > pr) return NULL;
       TreeNode *res = new TreeNode(postorder[pr]);
-      int pos;
-      for (pos = il; pos <= ir && inorder[pos] != res->val; ++ pos);
+      int pos = distance(inorder.begin(), find(inorder.begin(), inorder.end(), res->val));
       int left_size = pos - il, right_size = ir - pos - 1;
       res->left = build(inorder, postorder, il, pos - 1, pl, pl + left_size - 1);
       res->right = build(inorder, postorder, pos + 1, ir, pl + left_size, pr - 1);
