@@ -10,18 +10,15 @@
 class Solution {
   public:
     vector<TreeNode *> dfs(int l, int r) {
+      if (l > r) return vector<TreeNode *>({nullptr});
       vector<TreeNode *> res;
-      if (l > r) {
-        res.push_back(NULL);
-        return res;
-      }
       for (int i = l; i <= r; ++ i) {
         vector<TreeNode *> left = dfs(l, i - 1), right = dfs(i + 1, r);
-        for (int l = 0; l < left.size(); ++ l) {
-          for (int r = 0; r < right.size(); ++ r) {
+        for (const auto &l : left) {
+          for (const auto &r : right) {
             TreeNode *current = new TreeNode(i);
-            current->left = left[l];
-            current->right = right[r];
+            current->left = l;
+            current->right = r;
             res.push_back(current);
           }
         }
