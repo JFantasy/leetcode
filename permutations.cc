@@ -1,5 +1,28 @@
 class Solution {
   public:
+    void dfs(const vector<int> &num, vector<int> &current, vector<vector<int> > &res) {
+      if (current.size() == num.size()) res.push_back(current);
+      else {
+        for (const auto &i : num) {
+          if (find(current.begin(), current.end(), i) != current.end()) continue;
+          current.push_back(i);
+          dfs(num, current, res);
+          current.pop_back();
+        }
+      }
+    }
+    vector<vector<int> > permute(vector<int> &num) {
+      vector<vector<int> > res;
+      vector<int> current;
+      dfs(num, current, res);
+      return res;
+    }
+};
+
+//---------
+
+class Solution {
+  public:
     void dfs(vector<vector<int> > &res, vector<int> &current, int dep, vector<int> &num, vector<int> &use) {
       if (dep == num.size()) res.push_back(current);
       else {
