@@ -1,5 +1,34 @@
 class Solution {
   public:
+    vector<vector<string>> partition(string s) {
+      const int n = s.length();
+      vector<vector<vector<string> > > res(n);
+      vector<vector<int> > palindrome(n, vector<int>(n));
+      for (int i = n - 1; i >= 0; --i) {
+        for (int j = i; j < n; ++ j) {
+          palindrome[i][j] = ((j - i < 2 || palindrome[i + 1][j - 1]) && s[i] == s[j]);
+        }
+      }
+      for (int i = n - 1; i >= 0; --i) {
+        for (int j = i; j < n; ++j) {
+          if (!palindrome[i][j]) continue;
+          string str = s.substr(i, j - i + 1);
+          if (j + 1 < n) {
+            for (vector<string> items : res[j + 1]) {
+              items.insert(items.begin(), str);
+              res[i].push_back(items);
+            }
+          } else res[i].push_back(vector<string>({str}));
+        }
+      }
+      return res[0];
+    }
+};
+
+//---------
+
+class Solution {
+  public:
     bool checkPalindrome(vector<vector<int> > &palindrome, const string &s, int l, int r) {
       if (l >= r) return true;
       if (palindrome[l][r] != -1) return palindrome[l][r];
