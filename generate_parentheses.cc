@@ -1,5 +1,23 @@
 class Solution {
   public:
+    vector<string> generateParenthesis(int n) {
+      if (n == 0) return vector<string>({""});
+      vector<string> res;
+      for (int i = 0; i < n; ++i) {
+        for (const auto &left : generateParenthesis(i)) {
+          for (const auto &right : generateParenthesis(n - i - 1)) {
+            res.push_back("(" + left + ")" + right);
+          }
+        }
+      }
+      return res;
+    }
+};
+
+//---------
+
+class Solution {
+  public:
     void dfs(vector<string> &res, string current, int dep, int length, int total) {
       if (total < 0) return;
       if (dep == length) {
