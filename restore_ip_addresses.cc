@@ -1,5 +1,32 @@
 class Solution {
   public:
+    void dfs(const int &dep, const string &s, const int &start, string ip, vector<string> &res) {
+      if (dep == 4) {
+        if (start != s.length()) return;
+        ip.pop_back();
+        res.push_back(ip);
+      } else {
+        int num = 0;
+        for (int i = start; i < s.length(); ++i) {
+          num = num * 10 + s[i] - '0';
+          if (num > 255) break;
+          ip += s[i];
+          dfs(dep + 1, s, i + 1, ip + ".", res);
+          if (num == 0) break;
+        }
+      }
+    }
+    vector<string> restoreIpAddresses(string s) {
+      vector<string> res;
+      dfs(0, s, 0, "", res);
+      return res;
+    }
+};
+
+//---------
+
+class Solution {
+  public:
     string itoa(const int &val) {
       stringstream res;
       res << val;
