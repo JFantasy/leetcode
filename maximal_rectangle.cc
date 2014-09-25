@@ -1,5 +1,38 @@
 class Solution {
   public:
+    int maximalRectangle(vector<vector<char> > &matrix) {
+      if (matrix.empty()) return 0;
+      const int n = matrix.size();
+      const int m = matrix[0].size();
+      vector<int> left(m, 0), right(m, m - 1), height(m, 0);
+      int area = 0;
+      for (int i = 0; i < n; ++i) {
+        int l = 0, r = m - 1;
+        for (int j = 0; j < m; ++j) {
+          if (matrix[i][j] == '1') {
+            ++height[j];
+            left[j] = max(left[j], l);
+          } else {
+            height[j] = left[j] = 0;
+            right[j] = m - 1;
+            l = j + 1;
+          }
+        }
+        for (int j = m - 1; j >= 0; --j) {
+          if (matrix[i][j] == '1') {
+            right[j] = min(right[j], r);
+            area = max(area, height[j] * (right[j] - left[j] + 1));
+          } else r = j - 1;
+        }
+      }
+      return area;
+    }
+};
+
+//---------
+
+class Solution {
+  public:
     void calLength(vector<int> &arr, vector<int> &res) {
       stack<int> stk;
       for (int i = 0; i < arr.size(); ++ i) {
