@@ -1,4 +1,38 @@
 /**
+ *  * Definition for an interval.
+ *   * struct Interval {
+ *    *     int start;
+ *     *     int end;
+ *      *     Interval() : start(0), end(0) {}
+ *       *     Interval(int s, int e) : start(s), end(e) {}
+ *        * };
+ *         */
+class Solution {
+  public:
+    vector<Interval> insert(vector<Interval> &intervals, Interval newInterval) {
+      vector<Interval>::iterator iter = intervals.begin();
+      vector<Interval> res;
+      bool merge = false;
+      while (iter != intervals.end() && merge == false) {
+        if (newInterval.end < iter->start) {
+          res.push_back(newInterval);
+          merge = true;
+        } else if (newInterval.start > iter->end) res.push_back(*(iter++));
+        else {
+          newInterval.start = min(iter->start, newInterval.start);
+          newInterval.end = max(iter->end, newInterval.end);
+          ++iter;
+        }
+      }
+      if (merge == false) res.push_back(newInterval);
+      for ( ; iter != intervals.end(); ++iter) res.push_back(*iter);
+      return res;
+    }
+};
+
+//---------
+
+/**
  * Definition for an interval.
  * struct Interval {
  *     int start;
