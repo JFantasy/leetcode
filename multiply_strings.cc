@@ -1,4 +1,4 @@
-ass Solution {
+class Solution {
   public:
     string process(string num1, string num2) {
       string res(num1.length() + num2.length(), '0');
