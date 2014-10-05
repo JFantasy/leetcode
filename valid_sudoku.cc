@@ -1,5 +1,24 @@
 class Solution {
   public:
+    bool isValidSudoku(vector<vector<char> > &board) {
+      const int n = board.size();
+      vector<vector<bool> > row(n, vector<bool>(n)), column(n, vector<bool>(n)), group(n, vector<bool>(n));
+      for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+          if (board[i][j] == '.') continue;
+          int val = board[i][j] - '1';
+          if (row[i][val] || column[j][val] || group[(i / 3) * 3 + (j / 3)][val]) return false;
+          row[i][val] = column[j][val] = group[(i / 3) * 3 + (j / 3)][val] = true;
+        }
+      }
+      return true;
+    }
+};
+
+//---------
+
+class Solution {
+  public:
     bool check(const vector<char> &arr) {
       vector<int> tot(9);
       for (int i = 0; i < arr.size(); ++ i) {
