@@ -1,30 +1,31 @@
 class Solution {
-  public:
+public:
     string longestPalindrome(string s) {
-      string t = "";
-      for (int i = 0; i < s.length(); ++ i) {
-        t += '#';
-        t += s[i];
-      }
-      t += '#';
-      vector<int> ans(t.length(), 0);
-      for (int i = 1, mx = 0, id = 0; i < t.length(); ++ i) {
-        if (mx > i) ans[i] = min(ans[2 * id - 1], mx - i);
-        else ans[i] = 1;
-        while (i + ans[i] < t.length() && i - ans[i] >= 0 && t[i + ans[i]] == t[i - ans[i]]) ++ ans[i];
-        if (ans[i] + i > mx) {
-          mx = ans[i] + i;
-          id = i;
+        string extend;
+        for (char ch : s) {
+            extend += '#';
+            extend += ch;
         }
-      }
-      int p = 0;
-      for (int i = 1; i < t.length(); ++ i) {
-        if (ans[i] > ans[p]) p = i;
-      }
-      string res = "";
-      for (int i = p - ans[p] + 1; i < p + ans[p]; ++ i) {
-        if (t[i] != '#') res += t[i];
-      }
-      return res;
+        extend += '#';
+        const int n = extend.length();
+        vector<int> len(n, 0);
+        for (int i = 1, current = 0, index = 0; i < n; ++i) {
+            if (current > i) len[i] = min(len[2 * index - i], current - i);
+            else len[i] = 1;
+            while (i + len[i] < n && i >= len[i] && extend[i - len[i]] == extend[i + len[i]]) ++len[i];
+            if (len[i] + i > current) {
+                current = len[i] + i;
+                index = i;
+            }
+        }
+        int res_index = 0;
+        for (int i = 1; i < n; ++i) {
+            if (len[i] > len[res_index]) res_index = i;
+        }
+        string res;
+        for (int i = res_index - len[res_index] + 1; i < res_index + len[res_index]; ++i) {
+            if (extend[i] != '#') res += extend[i];
+        }
+        return res;
     }
 };
