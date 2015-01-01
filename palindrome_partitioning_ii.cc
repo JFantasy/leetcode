@@ -1,21 +1,18 @@
 class Solution {
-  public:
-    bool isPalindrome(int l, int r, vector<vector<int> > &check, const string &s) {
-      if (l >= r) return true;
-      if (check[l][r] >= 0) return check[l][r];
-      return (check[l][r] = (s[l] == s[r] && isPalindrome(l + 1, r - 1, check, s)));
-    }
+public:
     int minCut(string s) {
-      if (s.length() == 0) return 0;
-      vector<vector<int> > check(s.length(), vector<int>(s.length(), -1));
-      vector<int> dp(s.length() + 1, 0);
-      for (int i = 0; i < s.length(); ++ i) {
-        for (int j = 0; j <= i; ++ j) {
-          if (isPalindrome(j, i, check, s)) {
-            dp[i + 1] = !dp[i + 1] ? dp[j] + 1 : min(dp[i + 1], dp[j] + 1);
-          }
+        const int n = s.length();
+        vector<vector<bool> > palindrome(n, vector<bool>(n, false));
+        vector<int> dp(n + 1, 0);
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = i; j < n; ++j) {
+                if (s[i] == s[j] && (j - i <= 1 || palindrome[i + 1][j - 1])) palindrome[i][j] = true;
+            }
+            for (int j = i; j < n; ++j) {
+                if (!palindrome[i][j]) continue;
+                if (dp[i] == 0 || dp[i] > dp[j + 1] + 1) dp[i] = dp[j + 1] + 1;
+            }
         }
-      }
-      return dp[s.length()] - 1;
+        return dp[0] - 1;
     }
 };
