@@ -1,20 +1,3 @@
-class Solution {
-public:
-    vector<string> anagrams(vector<string> &strs) {
-        unordered_map<string, vector<string> > group;
-        for (const auto &s : strs) {
-            string key = s;
-            sort(key.begin(), key.end());
-            group[key].push_back(s);
-        }
-        vector<string> res;
-        for (const auto &s : group) {
-            if (s.second.size() == 1) continue;
-            res.insert(res.end(), s.second.begin(), s.second.end());
-        }
-        return res;
-    }
-};
 
 //---------
 
